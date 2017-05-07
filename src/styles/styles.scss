@@ -2,18 +2,120 @@
 /* This file is for setting global styles  */
 @import 'variables';
 
-nav {
-  margin-top: 16px;
+/*!
+ * Start Bootstrap - Shop Homepage HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+
+.slide-image {
+    width: 100%;
 }
 
-nav a {
-  background-color: $nav-button-color;
-  color: white;
-  padding: 8px 16px;
-  margin: 8px;
-  vertical-align: middle;
-  line-height: 1.25;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 4px;
+.carousel-holder {
+    margin-bottom: 0px;
 }
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    height: 130px;
+    overflow: hidden;
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.ratings {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #d17581;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+footer {
+    margin: 0px 0;
+}
+
+
+.menu1 ul{
+	position: absolute;
+	z-index: 999;
+}
+
+.break{
+	clear: both;
+	height: 10px;
+	width: 100%;
+	margin:auto;
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.break90{
+	clear: both;
+	height: 10px;
+	width: 90%;
+	margin:auto;
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.space20{
+	height: 20px;
+	width: 100%;
+}
+
+
+.row-item{
+	padding-left:15px;
+}
+
+.border-left{
+	border-left: 1px solid #EEEEEE;
+}
+
+.border-right{
+	border-right: 1px solid #EEEEEE;
+}
+
+a{
+	color:black;
+}
+
+a:hover{
+	text-decoration: none;
+}
+
+.myheader{
+	background-color: #337AB7;
+	color:white;
+}
+
+.clear{
+	clear:both;
+}
+
+.navbar-brand{
+	font-size: 24px;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+	font-size: 16px;
+}
+

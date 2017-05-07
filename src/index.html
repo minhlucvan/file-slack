@@ -9,6 +9,13 @@
 
   <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
 
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  	<!--Font Awesome CSS-->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+	 crossorigin="anonymous">
+
+
   <% if (webpackConfig.htmlElements.headTags) { %>
   <!-- Configured Head Tags  -->
   <%= webpackConfig.htmlElements.headTags %>
@@ -38,7 +45,16 @@
   </script>
 
   <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
+  
+
+  <script
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
+
   <!-- Webpack Dev Server reload -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
   <script src="/webpack-dev-server.js"></script>
   <% } %>
 

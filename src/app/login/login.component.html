@@ -1,0 +1,149 @@
+<div class="lib-bg">
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default panel-intro">
+                    <div class="panel-body">
+                        Website môn học là nơi chia sẻ và cung cấp tài nguyên học tập, các phương tiện tương tác giữa giảng viên và sinh viên trong
+                        hoạt động giảng dạy và học tập của trường Đại học Công nghệ - Đại học Quốc gia Hà Nội.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row carousel-holder">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-sm-8 col-md-offset-3 col-xs-offset-0">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Đăng ký tài khoản</div>
+                            <div class="panel-body">
+                                <form [formGroup]="signUpForm" (ngSubmit)="signUp($event)" novalidate>
+                                    <div [ngClass]="{'form-group': true,  'no-mb': true,  'has-success': signUpForm.controls.name.valid}">
+                                        <label>Họ tên</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            </span>
+                                            <input formControlName="name"  type="text" class="form-control" placeholder="Nhập tên sử dụng" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div *ngIf="signUpForm.controls.name.invalid && ( signUpForm.controls.name.dirty || signUpForm.controls.name.touched )">
+                                            <small *ngIf="signUpForm.controls.name.errors.required" class="form-text text-danger">ten la truong bat buoc nha.</small>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div [ngClass]="{'form-group': true,  'no-mb': true,  'has-success': signUpForm.controls.email.valid}">
+                                        <label>Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            </span>
+                                            <input formControlName="email" type="email" class="form-control" placeholder="Nhập Email" name="email" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div *ngIf="signUpForm.controls.email.invalid && ( signUpForm.controls.email.dirty || signUpForm.controls.email.touched )">
+                                            <small *ngIf="signUpForm.controls.email.errors.required" class="form-text text-danger">email la truong bat buoc nha.</small>
+                                            <small *ngIf="signUpForm.controls.email.errors.email && !signUpForm.controls.email.errors.required" class="form-text text-danger">dia chi email ko hop le roi.</small>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div [ngClass]="{'form-group': true,  'no-mb': true,  'has-success': signUpForm.controls.password.valid}">
+                                        <label>Nhập mật khẩu</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            </span>
+                                            <input formControlName="password"  (change)="onPasswordChange" type="password" class="form-control" placeholder="Nhập mật khẩu" name="password" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div *ngIf="signUpForm.controls.password.invalid && ( signUpForm.controls.password.dirty || signUpForm.controls.password.touched )">
+                                            <small *ngIf="signUpForm.controls.password.errors.required" class="form-text text-danger">mat khau la truong bat buoc nha.</small>
+                                            <small *ngIf="signUpForm.controls.password.errors.minlength && !signUpForm.controls.password.errors.required" class="form-text text-danger">mat khau it nhat 6 ky tu.</small>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div [ngClass]="{'form-group': true,  'no-mb': true,  'has-success': signUpForm.controls.repassword.valid}">
+                                        <label>Nhập lại mật khẩu</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            </span>
+                                            <input formControlName="repassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu" name="passwordAgain" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div *ngIf="signUpForm.controls.repassword.invalid && ( signUpForm.controls.repassword.dirty || signUpForm.controls.repassword.touched )">
+                                            <small *ngIf="signUpForm.controls.repassword.errors.required" class="form-text text-danger">rmk la truong bat buoc nha.</small>
+                                            <small *ngIf="signUpForm.controls.repassword.errors.matched && !signUpForm.controls.repassword.errors.required" class="form-text text-danger">mat khau khoong trung truong ben tren.</small>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-footer centered">
+                                        <button [disabled]="!signUpForm.valid" type="submit" class="btn btn-default">Đăng ký</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-sm-8 col-md-offset-1 col-xs-offset-0">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Đăng nhập</div>
+                            <div class="panel-body">
+                                <form  [formGroup]="logInForm" (ngSubmit)="logIn($event)" novalidate>  
+                                    <div [ngClass]="{'form-group': true,  'no-mb': true,  'has-success': logInForm.controls.email.valid}">
+                                        <label>Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            </span>
+                                            <input formControlName="email" type="email" class="form-control" placeholder="Nhập Email" name="email" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div *ngIf="logInForm.controls.email.invalid && ( logInForm.controls.email.dirty || logInForm.controls.email.touched )">
+                                            <small *ngIf="logInForm.controls.email.errors.required" class="form-text text-danger">email la truong bat buoc nha.</small>
+                                            <small *ngIf="logInForm.controls.email.errors.email && !logInForm.controls.email.errors.required" class="form-text text-danger">dia chi email ko hop le roi.</small>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div [ngClass]="{'form-group': true,  'no-mb': true,  'has-success': logInForm.controls.password.valid}">
+                                        <label>Nhập mật khẩu</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            </span>
+                                            <input formControlName="password"  (change)="onPasswordChange" type="password" class="form-control" placeholder="Nhập mật khẩu" name="password" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div *ngIf="logInForm.controls.password.invalid && ( logInForm.controls.password.dirty || logInForm.controls.password.touched )">
+                                            <small *ngIf="logInForm.controls.password.errors.required" class="form-text text-danger">mat khau la truong bat buoc nha.</small>
+                                            <small *ngIf="logInForm.controls.password.errors.minlength && !logInForm.controls.password.errors.required" class="form-text text-danger">mat khau it nhat 6 ky tu.</small>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-footer centered">
+                                        <button type="submit" [disabled]="!logInForm.valid" class="btn btn-default">Đăng nhập</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end slide -->
+    </div>
+    <div class="container fixed-footer">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-3">
+                <div class="panel panel-default panel-btn">
+                    <div class="panel-body">
+                        <p>
+                            Thông tin liên hệ:<br> Phát triển bởi FIT, 2017. Đại học Quốc gia Hà Nội, Số 144 - Xuân Thủy
+                            - Cầu Giấy - Hà Nội.<br> ĐT: 84.4.37547.461, Fax: 84.4.37547.460, Email: uet@vnu.edu.vn
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end Page Content -->
+
+</div>

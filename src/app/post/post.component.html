@@ -1,0 +1,47 @@
+<layout>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:#337AB7; color:white;">
+            <h2 style="margin-top:0px; margin-bottom:0px;">Tạo bài viết ...</h2>
+        </div>
+
+        <div class="panel-body" style="height: 550px;">
+            <div class="row">
+                <div class="col-lg-12" style="padding-bottom:120px">
+                    <form [formGroup]="postForm" (ngSubmit)="post()" novalidate>
+                        <div class="form-group">
+                            <label>Tên tiêu đề</label>
+                            <input formControlName="title" class="form-control" name="txtPrice" placeholder="Nhập tên tiêu đề" />
+                            <div *ngIf="postForm.controls.title.invalid && ( postForm.controls.title.dirty || postForm.controls.title.touched )">
+                                <small *ngIf="postForm.controls.title.errors.required" class="form-text text-danger">ten la truong bat buoc nha.</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Thuộc danh mục</label>
+                            <select formControlName="chanel" class="form-control">
+                                <option value="">-- Lựa chọn danh mục --</option>
+                                <option *ngFor="let chanel of chanels" [value]="chanel.$key">{{ chanel.name }}</option>
+                            </select>
+                            <div *ngIf="postForm.controls.chanel.invalid && ( postForm.controls.chanel.dirty || postForm.controls.chanel.touched )">
+                                <small *ngIf="postForm.controls.chanel.errors.required" class="form-text text-danger">ten la truong bat buoc nha.</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả chi tiết</label>
+                            <textarea formControlName="content" class="form-control" rows="3" name="txtContent"></textarea>
+                            <div *ngIf="postForm.controls.content.invalid && ( postForm.controls.content.dirty || postForm.controls.content.touched )">
+                                <small *ngIf="postForm.controls.content.errors.required" class="form-text text-danger">ten la truong bat buoc nha.</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>File đính kèm</label>
+                            <input (change)="selectFile($event)" type="file" name="fImages">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Tạo bài viết</button>
+                        <button type="reset" class="btn btn-default">Làm mới</button>
+                    </form>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+</layout>

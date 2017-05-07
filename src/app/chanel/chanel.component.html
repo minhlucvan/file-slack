@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+    <div class="panel-heading" style="background-color:#337AB7; color:white;">
+        <h2 style="margin-top:0px; margin-bottom:0px;">{{ chanel.title }}</h2>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="row-item row">
+            <div *ngFor="let topic of pageTopics" class="col-md-12">
+                <h3>{{ topic.title }}</h3>
+                <p>topic.content</p>
+                <a class="btn btn-primary" [routerLink]="['/topic', chanel.$key, topic.$key]">View Project <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+            <div class="break"></div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <ul class="pagination">
+                    <li>
+                        <a (click)="setPage(currentPage - 1)">&laquo;</a>
+                    </li>
+                    <li *ngFor="let p of pages" [ngClass]="{'active': currentPage == p}">
+                        <a (click)="setPage(p)">{{ p }}</a>
+                    </li>
+                    <li>
+                        <a (click)="setPage(currentPage + 1)">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+</div>

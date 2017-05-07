@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
   NgModule,
@@ -25,9 +25,18 @@ import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { HomeComponent } from './home';
-import { AboutComponent } from './about';
-import { NoContentComponent } from './no-content';
-import { XLargeDirective } from './home/x-large';
+import { LayoutComponent } from './layout';
+import { ChanelComponent } from './chanel';
+import { LogInComponent } from './login';
+import { TopicComponent } from './topic';
+import { PostComponent } from './post';
+
+import { AngularFireModule } from 'angularfire2';
+import { FirebaseService } from './providers/firebase.service';
+
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthGuard } from './providers/AuthGuard';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -48,23 +57,33 @@ type StoreType = {
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [ 
+    AppComponent
+  ],
   declarations: [
     AppComponent,
-    AboutComponent,
     HomeComponent,
-    NoContentComponent,
-    XLargeDirective
+    LayoutComponent,
+    LogInComponent,
+    ChanelComponent,
+    TopicComponent,
+    PostComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    AngularFireModule.initializeApp(FirebaseService.API_CONFIG),
+    AngularFireDatabaseModule, // imports firebase/database, only needed for database features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+    FirebaseService,
+    AuthGuard
   ]
 })
 export class AppModule {

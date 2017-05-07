@@ -4,8 +4,7 @@ import {
 } from '@angular/core';
 
 import { AppState } from '../app.service';
-import { Title } from './title';
-import { XLargeDirective } from './x-large';
+import { FirebaseService } from '../providers/firebase.service';
 
 @Component({
   // The selector is what angular internally uses
@@ -14,7 +13,6 @@ import { XLargeDirective } from './x-large';
   selector: 'home',  // <home></home>
   // We need to tell Angular's Dependency Injection which providers are in our app.
   providers: [
-    Title
   ],
   // Our list of styles in our component. We may add more to compose many styles together
   styleUrls: [ './home.component.css' ],
@@ -23,21 +21,17 @@ import { XLargeDirective } from './x-large';
 })
 export class HomeComponent implements OnInit {
   // Set our default values
-  public localState = { value: '' };
-  // TypeScript public modifiers
+
   constructor(
     public appState: AppState,
-    public title: Title
+    private firebaseService: FirebaseService
   ) {}
 
   public ngOnInit() {
     console.log('hello `Home` component');
-    // this.title.getData().subscribe(data => this.data = data);
   }
 
   public submitState(value: string) {
-    console.log('submitState', value);
-    this.appState.set('value', value);
-    this.localState.value = '';
+   
   }
 }
