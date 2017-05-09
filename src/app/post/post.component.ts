@@ -81,17 +81,16 @@ export class PostComponent implements OnInit {
         var topics = this.db.list(`/chanels/${data.chanel}/topics/`);
 
         topics.push(data).then(res => {
-            console.log(res.key);
 
             var firebase = this.db.app;
             var storageRef = firebase.storage().ref();
 
             data.key = res.key;
-
-             var fileRef = storageRef.child(`topics/${res.$key}/${this.file.name}`);
-             return fileRef.put(this.file);
+            data.file = `/topics/${data.chanel}/${res.key}/${this.file.name}`;
+            var fileRef = storageRef.child( data.file );
+            return fileRef.put(this.file);
         }).then(res => {
-            return this.db.object(`/chanels/${data.chanel}/topics/${data.key}/`).update({'files': `/topics/${res.$key}/${this.file.name}`})
+            return this.db.object(`/chanels/${data.chanel}/topics/${data.key}/file`).set(data.file)
         }).then(res => {
             return this.router.navigate(['/topic', data.chanel, data.key]);
         });

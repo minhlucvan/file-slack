@@ -7,7 +7,7 @@
 
     <!-- Author -->
     <p class="lead">
-        by <a href="#">{{ topic?.author.name }}</a>
+        by <a href="#">{{ topic?.author?.name }}</a>
     </p>
 
     <!-- Date/Time -->
@@ -16,7 +16,7 @@
 
     <p>{{ topic?.content }}</p>
 
-    <button class="btn btn-primary btn-lg"><i class="fa fa-download" aria-hidden="true"></i> Tai Xuong</button>
+    <a [href]="fileUrl" class="btn btn-primary btn-lg"><i class="fa fa-download" aria-hidden="true"></i> Tai Xuong</a>
     <hr>
 
     <!-- Blog Comments -->

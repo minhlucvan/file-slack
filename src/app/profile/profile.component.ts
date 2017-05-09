@@ -13,7 +13,7 @@ import { FirebaseService } from "../providers/firebase.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import * as firebase from 'firebase';
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 
 @Component({
@@ -44,12 +44,29 @@ export class ProfileComponent implements OnInit, OnChanges {
     ) { }
 
     public ngOnInit() {
+            this.userForm = this.formBuilder.group({
+                'name': ['', [ Validators.required ] ],
+                'mssv': ['', []],
+                'gender': ['', [] ],
+                'birth': ['', [] ],
+                'bacdt': ['', []],
+                'htdt': ['', []],
+                'ctdt': ['', [] ],
+                'khoa': ['', []],
+                'class': ['', []],
+                'homeTown': ['', []],
+                'email': ['', []],
+                'phone': ['', [] ]
+             });
+
         this.route.params.subscribe(params => {
-            this.state = params['state'];
-            this.uid = params['uid'];
+            this.state = params['state'] || 'me';
+            this.uid = params['uid'] || 'view';
+
             if (this.uid == 'me') {
                 this.uid = this.afAuth.auth.currentUser.uid;
             }
+            this.loadUser( );
         });
 
         this.db.object('/options/').subscribe(options => {
@@ -57,42 +74,34 @@ export class ProfileComponent implements OnInit, OnChanges {
                 options[key] = Object.keys(options[key]).map(subKey => options[key][subKey]);
             });
             this.options = options;
-            console.log(this.options);
-        });
-
-        this.userForm = this.formBuilder.group({
-            'name': ['', [] ],
-            'gender': ['', [] ],
-            'birth': ['', [] ],
-            'bacdt': ['', []],
-            'htdt': ['', []],
-            'ctdt': ['', [] ],
-            'khoa': ['', []],
-            'class': ['', []],
-            'howmTown': ['', []],
-            'email': ['', []],
-            'phone': ['', [] ]
         });
     }
 
     public ngOnChanges(changes) {
-        if( changes['uid'] ){
-            this.loadUser( changes['uid']['currentValue'] );
-        }
     }
 
-    public loadUser( uid ) {
-        this.db.object(`/users/${uid}`).subscribe(user => {
+    public loadUser( ) {
+        this.db.object(`/users/${this.uid}`).subscribe(user => {
+            console.log('user change');
             this.user = user;
+            this.userForm.setValue(user);
+            this.userForm.controls.email.disable();
         });
     }
 
     public submitProfile(){
-        
+        console.log('submitProfile');
+        var user = this.userForm.getRawValue();
+
+        this.db.object(`/users/${this.uid}`).update(user).then(this.toView.bind(this));
+    }
+
+    public toView(){
+        this.router.navigate(['/profile','me', 'view']);
     }
 
     public toEdit() {
-        this.router.navigate(['/profile', 'edit']);
+        this.router.navigate(['/profile','me', 'edit']);
     }
 
 }

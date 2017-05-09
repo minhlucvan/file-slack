@@ -12,6 +12,7 @@ export const ROUTES: Routes = [
   { path: 'login', component: LogInComponent},
   { path: 'topic/:chanel/:topic', component: TopicComponent, canActivate: [AuthGuard] },
   { path: 'post', component: PostComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:uid', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'profile/:uid/:state', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: '*', component: HomeComponent}
 ];

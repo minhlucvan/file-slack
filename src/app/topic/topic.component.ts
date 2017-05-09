@@ -1,11 +1,12 @@
 import {
     Component,
     OnInit,
-    Input
+    Input,
+    OnChanges
 } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { AppState } from '../app.service';
+import { FirebaseApp } from 'angularfire2';
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseService } from "../providers/firebase.service";
@@ -25,19 +26,20 @@ console.log(moment.locale());
     styles: [''],
     templateUrl: './topic.component.html'
 })
-export class TopicComponent implements OnInit {
+export class TopicComponent implements OnInit, OnChanges {
 
     public topic;
 
     public cid = '';
     public tid = '';
 
+    public fileUrl = 'javascript:void(0);';
     public comment: String;
 
     private subs = [];
 
     constructor(
-        private appState: AppState,
+        private app: FirebaseApp,
         private afAuth: AngularFireAuth,
         private db: AngularFireDatabase,
         private firebaseService: FirebaseService,
@@ -50,20 +52,33 @@ export class TopicComponent implements OnInit {
             this.cid = params['chanel'];
             this.tid = params['topic'];
             this.loadTopic();
-        })
+        });
     }
 
     public loadTopic(){
         this.db.object(`/chanels/${this.cid}/topics/${this.tid}`).subscribe(topic => {
-            topic.created = moment.unix( topic.created ).format("DD MMM YYYY hh:mm a");
+            if(!topic) { return; }
+            topic.created = moment( new Date(topic.created) ).fromNow();
             this.topic = topic;
-            this.topic.comments = Object.keys( topic.comments ).map(key => ({ key, ...topic.comments[key]}));
-            this.topic.comments = this.topic.comments.reverse();  
-            this.topic.comments = this.topic.comments.map(cmt => {
-                cmt.created =  moment.unix( cmt.created ).format("DD MMM YYYY hh:mm a");
+            if (!topic.comments) { topic.comments = []; }
+            this.topic.comments = Object.keys( topic.comments ).map(key => ({ key, ...topic.comments[key]})); 
+            this.topic.comments = this.topic.comments.reverse().map(cmt => {
+                cmt.created =  moment( new Date(cmt.created) ).fromNow();
                 return cmt;
             });
+            this.getFileUrl( );
         });
+    }
+
+    public ngOnChanges( changes ){
+        
+    }
+
+    public getFileUrl( ){
+         console.log( this.db.app.storage );
+         this.db.app.storage().ref().child( this.topic.file ).getDownloadURL().then( url => {
+             this.fileUrl = url;
+         } )
     }
 
     public sendComment(){

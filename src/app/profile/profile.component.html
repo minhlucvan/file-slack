@@ -5,15 +5,15 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center">
-                    <img alt="User Pic" src="image/User.png" class="img-circle img-responsive">
+                <div class="col-md-1 col-lg-1 " align="center">
+                    <!--<img alt="User Pic" src="image/User.png" class="img-circle img-responsive">-->
                 </div>
-                <div class=" col-md-9 col-lg-9 ">
+                <div class=" col-md-6 col-lg-6 ">
                     <table class="table table-user-information">
                         <tbody>
                             <tr>
                                 <td>Họ tên:</td>
-                                <td>{{ user?.displayName }}</td>
+                                <td>{{ user?.name }}</td>
                             </tr>
                             <tr>
                                 <td>Mã số sinh viên:</td>
@@ -76,25 +76,25 @@
     <div *ngIf="(state == 'edit') && (!!options)" class="panel panel-primary" id="edit-my-profile-panel">
         <div class="panel-heading">Thông tin tài khoản</div>
         <div class="panel-body">
-            <form>
+            <form [formGroup]="userForm" (ngSubmit)="submitProfile()">
                 <div>
                     <label>Họ tên</label>
-                    <input type="text" class="form-control" placeholder="Nhập họ tên" name="name" aria-describedby="basic-addon1">
+                    <input formControlName="name" type="text" class="form-control" placeholder="Nhập họ tên" name="name" aria-describedby="basic-addon1">
                 </div>
                 <br>
                 <div>
                     <label>Mã số sinh viên</label>
-                    <input type="text" class="form-control" placeholder="Nhập mã sinh viên" name="email" aria-describedby="basic-addon1">
+                    <input formControlName="mssv" type="text" class="form-control" placeholder="Nhập mã sinh viên" name="email" aria-describedby="basic-addon1">
                 </div>
                 <br>
                 <div>
                     <label>Ngày sinh</label>
-                    <input type="text" class="form-control" placeholder="" name="email" aria-describedby="basic-addon1">
+                    <input formControlName="birth" type="date" class="form-control" placeholder="" name="email" aria-describedby="basic-addon1">
                 </div>
                 <br>
                 <div>
                     <label>Giới tính</label>
-                    <select name="" id="" class="form-control">
+                    <select formControlName="gender" name="" id="" class="form-control">
                         <option value="">-- Chọn giới tính --</option>
                         <option *ngFor="let gender of options.gender" value="gender">{{ gender }}</option>
                     </select>
@@ -102,7 +102,7 @@
                 <br>
                 <div>
                     <label>Bậc đào tạo</label>
-                    <select name="" id="" class="form-control">
+                    <select formControlName="bacdt" name="" id="" class="form-control">
                         <option value="">-- Chọn bậc đào tạo --</option>
                         <option *ngFor="let bac of options.bacdt" value="bac">{{ bac }}</option>
                     </select>
@@ -110,7 +110,7 @@
                 <br>
                 <div>
                     <label>Hình thức đào tạo</label>
-                    <select name="" id="" class="form-control">
+                    <select formControlName="htdt" name="" id="" class="form-control">
                         <option value="">-- Chọn hình thức đào tạo --</option>
                         <option *ngFor="let ht of options.htdt" value="ht">{{ ht }}</option>
                     </select>
@@ -118,7 +118,7 @@
                 <br>
                 <div>
                     <label>Chương tình đào tạo</label>
-                    <select name="" id="" class="form-control">
+                    <select formControlName="ctdt" name="" id="" class="form-control">
                         <option value="">-- Chọn chương trình đào tạo --</option>
                         <option *ngFor="let ct of options.ctdt" value="ct">{{ ct }}</option>
                     </select>
@@ -126,7 +126,7 @@
                 <br>
                 <div>
                     <label>Khoa</label>
-                    <select name="" id="" class="form-control">
+                    <select formControlName="khoa" name="" id="" class="form-control">
                         <option value="">-- Chọn khoa --</option>
                          <option *ngFor="let khoa of options.khoa" value="khoa">{{ khoa }}</option>
                     </select>
@@ -134,24 +134,24 @@
                 <br>
                 <div>
                     <label>Lớp khóa học</label>
-                     <input type="text" class="form-control" placeholder="Nhập email" name="email" aria-describedby="basic-addon1">
+                     <input formControlName="class" type="text" class="form-control" placeholder="Nhập email" name="email" aria-describedby="basic-addon1">
                 </div>
                 <div>
                     <label>Quê quán</label>
-                    <input type="text" class="form-control" placeholder="Nhập quê quán" name="email" aria-describedby="basic-addon1">
+                    <input formControlName="homeTown" type="text" class="form-control" placeholder="Nhập quê quán" name="email" aria-describedby="basic-addon1">
                 </div>
                 <br>
                 <div>
                     <label>Email</label>
-                    <input type="text" disabled class="form-control" placeholder="Nhập email" name="email" aria-describedby="basic-addon1">
+                    <input formControlName="email" type="text" class="form-control" placeholder="Nhập email" name="email" aria-describedby="basic-addon1">
                 </div>
                 <br>
                 <div>
                     <label>Số điện thoại</label>
-                    <input type="text" class="form-control" placeholder="Nhập số điên thoại" name="email" aria-describedby="basic-addon1">
+                    <input formControlName="phone" type="text" class="form-control" placeholder="Nhập số điên thoại" name="email" aria-describedby="basic-addon1">
                 </div>
                 <br>
-                <button id="submit-profile" type="button" class="btn btn-primary">Cập nhật</button>
+                <button id="submit-profile" type="submit" class="btn btn-primary">Cập nhật</button>
             </form>
         </div>
     </div>
