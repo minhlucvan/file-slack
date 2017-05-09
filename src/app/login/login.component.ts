@@ -76,7 +76,13 @@ export class LogInComponent implements OnInit {
 
     public initUserData( data ){
         let user = this.afAuth.auth.currentUser;
-        return user.updateProfile({ displayName: data.name, photoURL: user.photoURL});
+        return user.updateProfile({ displayName: data.name, photoURL: user.photoURL})
+                  .then(() => {
+                        return this.db.object('/users/').set({ [user.uid]: {
+                            name: data.name,
+                            email: data.email
+                        }});
+                    });
     }
 
     public sendVeify(){
@@ -92,7 +98,7 @@ export class LogInComponent implements OnInit {
         console.log('verify email sent', res);
     }
 
-    public logIn(  ){
+    public logIn(){
         let data = this.logInForm.getRawValue();
         console.log('login request', data);    
         this.afAuth.auth.signInWithEmailAndPassword(data.email, data.password)

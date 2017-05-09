@@ -75,7 +75,9 @@ export class PostComponent implements OnInit {
         data.created = firebase.database.ServerValue.TIMESTAMP;
 
         data.public = true;
-        
+
+        data.comments = {};    
+
         var topics = this.db.list(`/chanels/${data.chanel}/topics/`);
 
         topics.push(data).then(res => {

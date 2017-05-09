@@ -1,0 +1,159 @@
+<layout>
+    <div *ngIf="(state != 'edit') && (user)" id="my-profile-panel" class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">ho so {{ user?.displayName }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center">
+                    <img alt="User Pic" src="image/User.png" class="img-circle img-responsive">
+                </div>
+                <div class=" col-md-9 col-lg-9 ">
+                    <table class="table table-user-information">
+                        <tbody>
+                            <tr>
+                                <td>Họ tên:</td>
+                                <td>{{ user?.displayName }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mã số sinh viên:</td>
+                                <td>{{ user?.mssv }}</td>
+                            </tr>
+                            <tr>
+                                <td>Ngày sinh:</td>
+                                <td>{{ user?.birthDate }}</td>
+                            </tr>
+                            <tr>
+                                <td>Giới tính:</td>
+                                <td>{{ user.gender }}</td>
+                            </tr>
+                            <tr>
+                                <td>Bậc đào tạo:</td>
+                                <td>{{ user?.bacdt }}</td>
+                            </tr>
+                            <tr>
+                                <td>Hình thức đào tạo:</td>
+                                <td>{{ user.htdt }}</td>
+                            </tr>
+                            <tr>
+                                <td>Chương trình đào tạo:</td>
+                                <td>{{ user.ctdt }}</td>
+                            </tr>
+                            <tr>
+                                <td>Khoa:</td>
+                                <td>{{ user.khoa }}</td>
+                            </tr>
+                            <tr>
+                                <td>Lớp khóa học:</td>
+                                <td>{{ user.class }}</td>
+                            </tr>
+                            <tr>
+                                <td>Quê quán:</td>
+                                <td>{{ user.homeTowm }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td>Điện thoại liên hệ:</td>
+                                <td>{{ user.phone }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" onclick="go('Chat.html')"><i class="glyphicon glyphicon-envelope"></i> Nhắn tin</a>
+            <span class="pull-right">
+                <a (click)="toEdit()" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-edit"></i> Cập nhật thông tin</a>
+            </span>
+        </div>
+
+    </div>
+
+    <div *ngIf="(state == 'edit') && (!!options)" class="panel panel-primary" id="edit-my-profile-panel">
+        <div class="panel-heading">Thông tin tài khoản</div>
+        <div class="panel-body">
+            <form>
+                <div>
+                    <label>Họ tên</label>
+                    <input type="text" class="form-control" placeholder="Nhập họ tên" name="name" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <div>
+                    <label>Mã số sinh viên</label>
+                    <input type="text" class="form-control" placeholder="Nhập mã sinh viên" name="email" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <div>
+                    <label>Ngày sinh</label>
+                    <input type="text" class="form-control" placeholder="" name="email" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <div>
+                    <label>Giới tính</label>
+                    <select name="" id="" class="form-control">
+                        <option value="">-- Chọn giới tính --</option>
+                        <option *ngFor="let gender of options.gender" value="gender">{{ gender }}</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <label>Bậc đào tạo</label>
+                    <select name="" id="" class="form-control">
+                        <option value="">-- Chọn bậc đào tạo --</option>
+                        <option *ngFor="let bac of options.bacdt" value="bac">{{ bac }}</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <label>Hình thức đào tạo</label>
+                    <select name="" id="" class="form-control">
+                        <option value="">-- Chọn hình thức đào tạo --</option>
+                        <option *ngFor="let ht of options.htdt" value="ht">{{ ht }}</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <label>Chương tình đào tạo</label>
+                    <select name="" id="" class="form-control">
+                        <option value="">-- Chọn chương trình đào tạo --</option>
+                        <option *ngFor="let ct of options.ctdt" value="ct">{{ ct }}</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <label>Khoa</label>
+                    <select name="" id="" class="form-control">
+                        <option value="">-- Chọn khoa --</option>
+                         <option *ngFor="let khoa of options.khoa" value="khoa">{{ khoa }}</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <label>Lớp khóa học</label>
+                     <input type="text" class="form-control" placeholder="Nhập email" name="email" aria-describedby="basic-addon1">
+                </div>
+                <div>
+                    <label>Quê quán</label>
+                    <input type="text" class="form-control" placeholder="Nhập quê quán" name="email" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <div>
+                    <label>Email</label>
+                    <input type="text" disabled class="form-control" placeholder="Nhập email" name="email" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <div>
+                    <label>Số điện thoại</label>
+                    <input type="text" class="form-control" placeholder="Nhập số điên thoại" name="email" aria-describedby="basic-addon1">
+                </div>
+                <br>
+                <button id="submit-profile" type="button" class="btn btn-primary">Cập nhật</button>
+            </form>
+        </div>
+    </div>
+
+</layout>

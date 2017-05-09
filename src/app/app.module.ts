@@ -40,6 +40,7 @@ import { AuthGuard } from './providers/AuthGuard';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
+import { ProfileComponent } from "./profile";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -67,7 +68,8 @@ type StoreType = {
     LogInComponent,
     ChanelComponent,
     TopicComponent,
-    PostComponent
+    PostComponent,
+    ProfileComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

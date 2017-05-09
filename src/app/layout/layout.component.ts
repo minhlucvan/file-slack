@@ -20,6 +20,7 @@ import { Router } from "@angular/router";
 })
 export class LayoutComponent implements OnInit {
 
+    public me;
     public chanels = [];
     public onlineList = [];
 
@@ -44,7 +45,9 @@ export class LayoutComponent implements OnInit {
 
         this.firebaseService.currentChanelId.subscribe( id => {
             this.currentChanelId = id;
-        })            
+        });
+
+        this.me = this.afAuth.auth.currentUser;            
     }
 
     public setChanel( id ){

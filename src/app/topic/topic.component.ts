@@ -11,7 +11,7 @@ import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseService } from "../providers/firebase.service";
 import { ActivatedRoute } from "@angular/router";
 
-
+import * as firebase from 'firebase';
 import * as moment from 'moment';
 import 'moment/locale/vi';
 
@@ -31,6 +31,9 @@ export class TopicComponent implements OnInit {
 
     public cid = '';
     public tid = '';
+
+    public comment: String;
+
     private subs = [];
 
     constructor(
@@ -51,11 +54,32 @@ export class TopicComponent implements OnInit {
     }
 
     public loadTopic(){
-        this.db.object(`/chanels/${this.cid}/topics/${this.tid}/`).subscribe(topic => {
-            console.log(topic);
+        this.db.object(`/chanels/${this.cid}/topics/${this.tid}`).subscribe(topic => {
             topic.created = moment.unix( topic.created ).format("DD MMM YYYY hh:mm a");
             this.topic = topic;
-        })
+            this.topic.comments = Object.keys( topic.comments ).map(key => ({ key, ...topic.comments[key]}));
+            this.topic.comments = this.topic.comments.reverse();  
+            this.topic.comments = this.topic.comments.map(cmt => {
+                cmt.created =  moment.unix( cmt.created ).format("DD MMM YYYY hh:mm a");
+                return cmt;
+            });
+        });
+    }
+
+    public sendComment(){
+        if( !this.comment ){ return; }
+        var commentObj = {
+            content: this.comment,
+            author: {
+                uid: this.afAuth.auth.currentUser.uid,
+                name: this.afAuth.auth.currentUser.displayName || this.afAuth.auth.currentUser.email,
+            },
+            created: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        this.db.list(`/chanels/${this.cid}/topics/${this.tid}/comments/`).push( commentObj ).then(res => {
+            this.comment = '';
+        });
     }
 
 }
