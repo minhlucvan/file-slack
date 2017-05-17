@@ -15,10 +15,23 @@ import { Router } from "@angular/router";
     selector: 'layout',
     providers: [
     ],
-    styles: ['.mt-85{ margin-top: 85px; }'],
+    styles: [`
+            .mt-85{ margin-top: 85px; }
+            
+            .loader-wrap{
+                position: absolute;
+                right: 40px;
+                top: 7px;
+            }
+
+            .loader-grey>div>div {
+                background-image: linear-gradient(transparent 0%, transparent 70%, #9d9d9d 30%, #9d9d9d 100%);
+            }
+            `],
     templateUrl: './layout.component.html'
 })
 export class LayoutComponent implements OnInit {
+    public showLoader: boolean;
 
     public me;
     public chanels = [];
@@ -46,6 +59,10 @@ export class LayoutComponent implements OnInit {
         this.firebaseService.currentChanelId.subscribe( id => {
             this.currentChanelId = id;
         });
+
+        this.appState.loader.subscribe((show) =>{
+            this.showLoader = show;
+        })
 
         this.me = this.afAuth.auth.currentUser;            
     }

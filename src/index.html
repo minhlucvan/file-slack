@@ -9,12 +9,16 @@
 
   <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
 
+  <link rel="manifest" href="/assets/manifest.json">
+
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
   	<!--Font Awesome CSS-->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
 	 crossorigin="anonymous">
 
+   <!--Loaders CSS-->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/loaders.css/0.1.2/loaders.css" />
 
   <% if (webpackConfig.htmlElements.headTags) { %>
   <!-- Configured Head Tags  -->
@@ -23,7 +27,6 @@
 
   <!-- base url -->
   <base href="<%= htmlWebpackPlugin.options.metadata.baseUrl %>">
-
 
 </head>
 
@@ -45,7 +48,6 @@
   </script>
 
   <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
-  
 
   <script
   src="https://code.jquery.com/jquery-1.12.4.js"

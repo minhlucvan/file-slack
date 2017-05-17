@@ -14,6 +14,7 @@ import {
   RouterModule,
   PreloadAllModules
 } from '@angular/router';
+import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -34,9 +35,13 @@ import { PostComponent } from './post';
 import { AngularFireModule } from 'angularfire2';
 import { FirebaseService } from './providers/firebase.service';
 
+import { SimpleNotificationsModule } from 'angular2-notifications';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthGuard } from './providers/AuthGuard';
+import { NotifyService } from './providers/notify.service';
+import { NotifyComponent } from './notify';
+import { ChatComponent } from './chat'; 
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -64,12 +69,14 @@ type StoreType = {
   declarations: [
     AppComponent,
     HomeComponent,
+    NotifyComponent,
     LayoutComponent,
     LogInComponent,
     ChanelComponent,
     TopicComponent,
     PostComponent,
-    ProfileComponent
+    ProfileComponent,
+    ChatComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -80,12 +87,15 @@ type StoreType = {
     AngularFireModule.initializeApp(FirebaseService.API_CONFIG),
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    SimpleNotificationsModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
     FirebaseService,
-    AuthGuard
+    AuthGuard,
+    NotifyService
   ]
 })
 export class AppModule {

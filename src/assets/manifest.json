@@ -1,5 +1,7 @@
 {
  "name": "App",
+ "//": "Some browsers will use this to enable push notifications.",
+ "gcm_sender_id": "103953800507",
  "icons": [
   {
    "src": "/assets/icon/android-icon-36x36.png",

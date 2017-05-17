@@ -1,128 +1,138 @@
-
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-				<a class="navbar-brand" [routerLink]="['/']">
-					<i class="fa fa-home" aria-hidden="true"></i>
-				</a>
-			</div>
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li>
-						<a [routerLink]="['/profile', 'me']">
-							<i class="fa fa-user" aria-hidden="true"></i>
-							<span class="data-binding attr-text">{{ me.displayName || me.email }}</span>
-						</a>
-					</li>
-				</ul>
+			<a class="navbar-brand" [routerLink]="['/']">
+				<i class="fa fa-home" aria-hidden="true"></i>
+			</a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li>
+					<a [routerLink]="['/profile', 'me']">
+						<i class="fa fa-user" aria-hidden="true"></i>
+						<span class="data-binding attr-text">{{ me.displayName || me.email }}</span>
+					</a>
+				</li>
+			</ul>
 
-				<ul class="nav navbar-nav pull-right">
-                    <li>
-                        <button type="button" [routerLink]="['/post']" class="btn btn-default navbar-btn">
+			<ul class="nav navbar-nav pull-right">
+				<li>
+					<button type="button" [routerLink]="['/post']" class="btn btn-default navbar-btn">
 							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 						</button>
-                    </li>
-					<li>
-						<form class="navbar-form navbar-left">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Search for...">
-								<span class="input-group-btn">
+				</li>
+				<li>
+					<form class="navbar-form navbar-left">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search for...">
+							<span class="input-group-btn">
         							<button class="btn btn-default" type="button">
 										<i class="fa fa-search" aria-hidden="true"></i>
 									</button>
 						      	</span>
-							</div>
-							<!-- /input-group -->
-						</form>
-					</li>
+						</div>
+						<!-- /input-group -->
+					</form>
+				</li>
 
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-							<i class="fa fa-bars" aria-hidden="true" style="font-size: 18px;"></i>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a (click)="logout()">logout</a></li>
-						</ul>
-					</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-bars" aria-hidden="true" style="font-size: 18px;"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#">Action</a></li>
+						<li><a href="#">Another action</a></li>
+						<li><a href="#" (click)="firebaseService.initMessaging()">nhan thong bao</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a (click)="logout()">logout</a></li>
+					</ul>
+				</li>
+				<li *ngIf="showLoader" class="loader-wrap">
+					<div class="loader loader-grey">
+						<div class="semi-circle-spin">
+							<div></div>
+						</div>
+					</div>
+				</li>
 
-				</ul>
-			</div>
-
-
-
-			<!-- /.navbar-collapse -->
+			</ul>
 		</div>
-		<!-- /.container -->
-	</nav>
 
-	<!-- Page Content -->
-	<div class="container mt-85">
 
-		<div class="row main-left">
-			<div class="col-md-3 ">
-				<ul class="list-group" id="menu">
-					<li href="#" class="list-group-item menu1 active">
-						Menu
-					</li>
-				</ul>
-				<div class="list-group-item menu1 active no-search">
+
+		<!-- /.navbar-collapse -->
+	</div>
+	<!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container mt-85">
+
+	<div class="row main-left">
+		<div class="col-md-3 ">
+			<ul class="list-group" id="menu">
+				<li href="#" class="list-group-item menu1 active">
 					Menu
-				</div>
-				<div style="padding: 0;"  class="list-group-item menu1 no-search" >
-					<div class="input-group">
-						<input type="text" class="form-control subject-input" placeholder="Search for...">
-						<span class="input-group-btn">
+				</li>
+			</ul>
+			<div class="list-group-item menu1 active no-search">
+				Menu
+			</div>
+			<div style="padding: 0;" class="list-group-item menu1 no-search">
+				<div class="input-group">
+					<input type="text" class="form-control subject-input" placeholder="Search for...">
+					<span class="input-group-btn">
 							<button class="btn btn-default" type="button">
 								<i class="fa fa-bolt" aria-hidden="true"></i>
 							</button> 
 						</span>
-					</div><!-- /input-group -->
 				</div>
-				<ul class="list-group" id="subject-list" style="max-height: 300px; overflow-y: scroll;">
-					<li *ngFor="let chanel of chanels" [ngClass]="{'list-group-item': true,  'menu1': true, 'list-group-item-success': (currentChanelId == chanel.$key)}" (click)="setChanel( chanel.$key )">
-						<a>{{ chanel.name }}</a>
-					</li>
-				</ul>
-
-				<ul class="list-group" id="menu">
-					<li href="#" class="list-group-item menu1 active">
-						Menu
-					</li>
-					<li *ngFor="let user of onlineList" class="list-group-item menu1">
-						<a [routerLink]="['/chat', user.uid]">{{ user.displayName || user.email }}</a>
-					</li>
-				</ul>
-
+				<!-- /input-group -->
 			</div>
+			<ul class="list-group" id="subject-list" style="max-height: 300px; overflow-y: scroll;">
+				<li *ngFor="let chanel of chanels" [ngClass]="{'list-group-item': true,  'menu1': true, 'list-group-item-success': (currentChanelId == chanel.$key)}"
+				 (click)="setChanel( chanel.$key )">
+					<a>{{ chanel.name }}</a>
+				</li>
+			</ul>
 
-			<div class="col-md-9">
-				<ng-content></ng-content>
-			</div>
+			<ul class="list-group" id="menu">
+				<li href="#" class="list-group-item menu1 active">
+					Menu
+				</li>
+				<li *ngFor="let user of onlineList" class="list-group-item menu1">
+					<a [routerLink]="['/chat', user.uid]">{{ user.displayName || user.email }}</a>
+				</li>
+			</ul>
+
 		</div>
-		<!-- /.row -->
+		<div class="col-md-9">
+			<notify></notify>
+		</div>
+		<div class="col-md-9">
+			<ng-content></ng-content>
+		</div>
 	</div>
-	<!-- end Page Content -->
+	<!-- /.row -->
+</div>
+<!-- end Page Content -->
 
-	<!-- Footer -->
-	<hr>
-	<footer>
-		<div class="row">
-			<div class="col-md-12">
-				<p>Copyright &copy; Your Website 2014</p>
-			</div>
+<!-- Footer -->
+<hr>
+<footer>
+	<div class="row">
+		<div class="col-md-12">
+			<p>Copyright &copy; Your Website 2014</p>
 		</div>
-	</footer>
-	<!-- end Footer -->
+	</div>
+</footer>
+<!-- end Footer -->

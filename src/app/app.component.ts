@@ -21,12 +21,19 @@ import { FirebaseService } from './providers/firebase.service';
   ],
   template: `
      <router-outlet></router-outlet>
+     <simple-notifications [options]="notifyOptions"></simple-notifications>
   `
 })
 export class AppComponent implements OnInit {
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Angular 2 Webpack Starter';
   public url = 'https://twitter.com/AngularClass';
+  public notifyOptions = {
+    position: ["top", "right"],
+    timeOut: 5000,
+    lastOnBottom: true,
+    theClass: 'notifications'
+  };
 
   constructor(
     public appState: AppState,

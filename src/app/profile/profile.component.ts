@@ -84,7 +84,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         this.db.object(`/users/${this.uid}`).subscribe(user => {
             console.log('user change');
             this.user = user;
-            this.userForm.setValue(user);
+            this.userForm.patchValue(user);
             this.userForm.controls.email.disable();
         });
     }

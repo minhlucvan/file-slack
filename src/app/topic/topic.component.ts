@@ -17,7 +17,6 @@ import * as moment from 'moment';
 import 'moment/locale/vi';
 
 moment.locale('vi');
-console.log(moment.locale());
 
 @Component({
     selector: 'topic',

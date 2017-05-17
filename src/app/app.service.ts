@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 export type InternalStateType = {
   [key: string]: any
@@ -8,6 +9,7 @@ export type InternalStateType = {
 export class AppState {
 
   public _state: InternalStateType = { };
+  public loader: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   // already return a clone of the current state
   public get state() {

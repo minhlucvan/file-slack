@@ -1,0 +1,6 @@
+<div class="alert-list">
+    <div *ngFor="let notify of noty" [ngClass]="['alert', 'alert-' + notify.type]" role="alert">
+        <button type="button" class="close" aria-label="Close" (click)="closeNoty(notify.key)"><span aria-hidden="true">&times;</span></button>
+        <strong>{{ notify.title }}</strong> {{ notify.message }}
+    </div>
+</div>

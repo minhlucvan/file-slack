@@ -68,6 +68,7 @@
     "webpack": "webpack"
   },
   "dependencies": {
+    "@angular/animations": "^4.1.2",
     "@angular/common": "4.2.0-beta.0",
     "@angular/compiler": "4.2.0-beta.0",
     "@angular/core": "4.2.0-beta.0",
@@ -80,12 +81,14 @@
     "@angularclass/conventions-loader": "^1.0.2",
     "@angularclass/hmr": "~1.2.2",
     "@angularclass/hmr-loader": "~3.0.2",
+    "angular2-notifications": "^0.7.3",
     "angularfire2": "^4.0.0-rc.0",
     "core-js": "^2.4.1",
     "firebase": "^3.9.0",
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
     "jasmine-core": "^2.5.2",
+    "ng2-slim-loading-bar": "^4.0.0",
     "reflect-metadata": "^0.1.9",
     "rxjs": "5.0.2",
     "typescript": "2.3.2",

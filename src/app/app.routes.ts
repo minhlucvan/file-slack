@@ -6,6 +6,7 @@ import { AuthGuard } from './providers/AuthGuard';
 import { TopicComponent } from "./topic";
 import { PostComponent } from "./post";
 import { ProfileComponent } from "./profile";
+import { ChatComponent } from "./chat/chat.component";
 
 export const ROUTES: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -14,5 +15,6 @@ export const ROUTES: Routes = [
   { path: 'post', component: PostComponent, canActivate: [AuthGuard] },
   { path: 'profile/:uid', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'profile/:uid/:state', component: ProfileComponent, canActivate: [AuthGuard]},
+  { path: 'chat/:uid', component: ChatComponent,  canActivate: [AuthGuard]},
   { path: '*', component: HomeComponent}
 ];

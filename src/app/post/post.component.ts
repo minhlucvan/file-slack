@@ -14,6 +14,7 @@ import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseService } from "../providers/firebase.service";
 import { Router } from "@angular/router";
 import * as firebase from 'firebase';
+import { NotificationsService } from "angular2-notifications";
 
 
 @Component({
@@ -38,7 +39,8 @@ export class PostComponent implements OnInit {
         private db: AngularFireDatabase,
         private firebaseService: FirebaseService,
         private router: Router,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private noty: NotificationsService
     ) { }
 
     public ngOnInit() {
@@ -80,6 +82,7 @@ export class PostComponent implements OnInit {
 
         var topics = this.db.list(`/chanels/${data.chanel}/topics/`);
 
+        this.appState.loader.next(true);
         topics.push(data).then(res => {
 
             var firebase = this.db.app;
@@ -92,7 +95,16 @@ export class PostComponent implements OnInit {
         }).then(res => {
             return this.db.object(`/chanels/${data.chanel}/topics/${data.key}/file`).set(data.file)
         }).then(res => {
+            this.noty.success('post bai thanh cong', this.postForm.getRawValue().title);
+            this.appState.loader.next(false);
             return this.router.navigate(['/topic', data.chanel, data.key]);
+        }).catch(( err ) => {
+            let msg = "loi khong xac dinh.";
+            if( err && err.message){
+                msg = err.message;
+            }
+            this.noty.error('khong the post bai', msg);
+            this.appState.loader.next(false);
         });
     }
 

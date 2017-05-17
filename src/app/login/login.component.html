@@ -1,3 +1,6 @@
+<div *ngIf="showLoader" class="abs-loader">
+    <div class="loader"><div class="line-scale"><div></div><div></div><div></div><div></div><div></div></div></div>
+</div>
 <div class="lib-bg">
     <!-- Page Content -->
     <div class="container">
@@ -43,6 +46,7 @@
                                         <div *ngIf="signUpForm.controls.email.invalid && ( signUpForm.controls.email.dirty || signUpForm.controls.email.touched )">
                                             <small *ngIf="signUpForm.controls.email.errors.required" class="form-text text-danger">email la truong bat buoc nha.</small>
                                             <small *ngIf="signUpForm.controls.email.errors.email && !signUpForm.controls.email.errors.required" class="form-text text-danger">dia chi email ko hop le roi.</small>
+                                            <small *ngIf="signUpForm.controls.email.errors.exist && !signUpForm.controls.email.errors.required" class="form-text text-danger">dia chi email nay da duoc su dung.</small>
                                         </div>
                                     </div>
                                     <br>

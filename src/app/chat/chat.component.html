@@ -1,0 +1,44 @@
+<layout>
+    <div *ngIf="!hasPartner" class="panel panel-default">
+        <div class="panel-heading" style="background-color:#337AB7; color:white;">
+            <h2 style="margin-top:0px; margin-bottom:0px;">Thang nay khong ton tai!</h2>
+        </div>
+    </div>
+    <div *ngIf="hasPartner" class="panel panel-default">
+        <div class="panel-heading" style="background-color:#337AB7; color:white;">
+            <h2 style="margin-top:0px; margin-bottom:0px;">{{ you?.name }}</h2>
+        </div>
+
+        <div class="panel-body" style="height: 550px;">
+
+            <ul #chatPanel class="chat">
+                <li *ngFor="let chat of chats" [ngClass]="{'left': !chat.isMe,'right': chat.isMe, 'clearfix': true}"><span [ngClass]="{'chat-img': true,'pull-left': !chat.isMe, 'pull-right': chat.isMe}">
+                            <img [src]="chat.avatar" alt="User Avatar" class="img-circle" />
+                        </span>
+                    <div class="chat-body clearfix">
+                        <div class="header">
+                            <strong [ngClass]="{'primary-font': true, 'pull-right': chat.isMe}">{{ chat.author }}</strong> <small [ngClass]="{'pull-right': !chat.isMe, 'text-muted': true}">
+                                <span class="glyphicon glyphicon-time"></span>{{ chat.created }}</small>
+                        </div>
+                        <p [ngClass]="{'pull-right': chat.isMe}">{{ chat.content }}</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="panel-footer">
+                <form role="form" (ngSubmit)="send()">
+                    <div class="input-group">
+                        <input id="btn-input" name="chat-input" id="chat-input" [(ngModel)]="chatInput" type="text" class="form-control input-lg" placeholder="Type your message here..."
+                        />
+                        <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary btn-lg" id="btn-chat">
+                            <i [ngClass]="{'fa': true, 'fa-paper-plane': !sending, 'fa-paper-plane-o': sending}" aria-hidden="true"></i>    
+                        </button>
+                    </span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</layout>
