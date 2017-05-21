@@ -1,0 +1,77 @@
+<layout>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">danh sach thanh vien</h2>
+        </div>
+        <div class="panel-body">
+            <div class="well">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>Ten</th>
+                            <th>Quen</th>
+                            <th>Tac vu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of pageUsers; let i = index">
+                            <td>{{ (currentPage - 1)*itemPerPage + i + 1}}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ (user.isAdmin?'admin':'thanh vien')}}</td>
+                            <td style="width: 180px">
+                                <a class="btn btn-default btn-sm"
+                                   [routerLink]="['/profile', user.uid]">
+                                   <em class="fa fa-eye"></em>
+                               </a>
+                                <a class="btn btn-primary btn-sm"
+                                   [routerLink]="['/chat', user.uid]">
+                                   <em class="fa fa-envelope-o"></em>
+                               </a>
+                               <a class="btn btn-warning btn-sm"
+                                  (click)="setAdmin( user.uid, user.name )">
+                                   <em class="fa fa-user-plus"></em>
+                               </a>
+                                <a class="btn btn-danger btn-sm"
+                                   (click)="removeUser( user.uid )">
+                                   <em class="fa fa-times"></em>
+                               </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="row text-center">
+                <div class="col-lg-12">
+                    <ul class="pagination">
+                        <li>
+                            <a (click)="setPage(currentPage - 1)">&laquo;</a>
+                        </li>
+                        <li *ngFor="let p of pages" [ngClass]="{'active': currentPage == p}">
+                            <a (click)="setPage(p)">{{ p }}</a>
+                        </li>
+                        <li>
+                            <a (click)="setPage(currentPage + 1)">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Delete Confirmation</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="error-text">Are you sure you want to delete the user?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</layout>

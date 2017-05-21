@@ -23,11 +23,16 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function (payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  if(payload.data.by == firebase.auth.currentUser.uid){
+    return;
+  }
   // Customize notification here
-  const notificationTitle = 'Background Message Title';
+  const notify = payload.notification; 
+  const notificationTitle = notify.title;
   const notificationOptions = {
-    body: 'Background Message body.',
-    icon: '/firebase-logo.png'
+    body: notify.body,
+    click_action: notify.click_action,
+    icon: 'http://thongtintuyensinh.vn/upload/coltech_62599.jpg'
   };
 
   return self.registration.showNotification(notificationTitle,

@@ -81,7 +81,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     }
 
     public loadUser( ) {
-        this.db.object(`/users/${this.uid}`).subscribe(user => {
+        this.firebaseService.user.subscribe(user => {
             console.log('user change');
             this.user = user;
             this.userForm.patchValue(user);

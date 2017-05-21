@@ -51,17 +51,16 @@ export class ChanelComponent implements OnInit {
     }
 
     public setTopics(topics) {
-        this.topics = topics;
+        this.topics = topics.reverse();
 
         this.totalPage = Math.floor(topics.length / this.itemPerPage) + 1;
-        console.log(this.totalPage);
         this.setPage(1);
     }
 
     public setPage(page) {
         if (page < 1 || page > this.totalPage) { return; }
 
-        this.currentPage = 1;
+        this.currentPage = page;
         this.pages = Array(this.totalPage).fill(0).map((v, i) => (i + 1));
         this.pageTopics = this.topics.filter((t, i) => (i >= (this.currentPage - 1) * this.itemPerPage && i < (this.currentPage) * this.itemPerPage));
     }

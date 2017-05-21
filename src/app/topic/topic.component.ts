@@ -92,6 +92,7 @@ export class TopicComponent implements OnInit, OnChanges {
         };
 
         this.db.list(`/chanels/${this.cid}/topics/${this.tid}/comments/`).push( commentObj ).then(res => {
+            this.firebaseService.pushNotify(this.afAuth.auth.currentUser.displayName,'binh luan: ' + this.comment,'');
             this.comment = '';
         });
     }

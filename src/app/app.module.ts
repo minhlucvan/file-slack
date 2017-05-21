@@ -46,6 +46,7 @@ import { ChatComponent } from './chat';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 import { ProfileComponent } from "./profile";
+import { UsersComponent } from "./users";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -76,7 +77,8 @@ type StoreType = {
     TopicComponent,
     PostComponent,
     ProfileComponent,
-    ChatComponent
+    ChatComponent,
+    UsersComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

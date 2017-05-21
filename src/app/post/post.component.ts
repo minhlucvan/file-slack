@@ -25,6 +25,7 @@ import { NotificationsService } from "angular2-notifications";
     templateUrl: './post.component.html'
 })
 export class PostComponent implements OnInit {
+    currentChanelName: any;
 
     public topic;
     public currentChanelId;
@@ -67,7 +68,13 @@ export class PostComponent implements OnInit {
 
     public post(){
         var data = this.postForm.getRawValue();
+        
+        if(!this.firebaseService.canPostTo(data.chanel)){
+            this.noty.warn('xin loi', 'ban khong co quen dang len kenh nay');
+            return;
+        }
         console.log(data);
+        const chanel = this.chanels.find(c => (c.$key == data.chanel));
 
         data.author = {
             name: this.afAuth.auth.currentUser.displayName,
@@ -97,6 +104,7 @@ export class PostComponent implements OnInit {
         }).then(res => {
             this.noty.success('post bai thanh cong', this.postForm.getRawValue().title);
             this.appState.loader.next(false);
+            this.firebaseService.pushNotify(this.afAuth.auth.currentUser.displayName, `da dang mot bai moi len nhom ${chanel.name}`, '');
             return this.router.navigate(['/topic', data.chanel, data.key]);
         }).catch(( err ) => {
             let msg = "loi khong xac dinh.";

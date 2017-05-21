@@ -82,6 +82,7 @@ export class LogInComponent implements OnInit {
         return user.updateProfile({ displayName: data.name, photoURL: user.photoURL})
                   .then(() => {
                         return this.db.object('/users/').set({ [user.uid]: {
+                            uid: user.uid,
                             name: data.name,
                             email: data.email
                         }});

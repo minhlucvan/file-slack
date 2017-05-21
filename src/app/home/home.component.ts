@@ -5,6 +5,7 @@ import {
 
 import { AppState } from '../app.service';
 import { FirebaseService } from '../providers/firebase.service';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   // The selector is what angular internally uses
@@ -24,11 +25,19 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public appState: AppState,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private route: ActivatedRoute,
   ) {}
 
   public ngOnInit() {
     console.log('hello `Home` component');
+    this.route.params.subscribe(params => {
+      if(params['chanel']){
+        this.firebaseService.currentChanelId.next(params['chanel']);
+      } else {
+        this.firebaseService.currentChanelId.next('thongbao');
+      }
+    })
   }
 
   public submitState(value: string) {

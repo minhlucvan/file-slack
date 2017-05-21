@@ -19,6 +19,7 @@ import { NotificationsService } from 'angular2-notifications';
 import * as firebase from 'firebase';
 import * as moment from 'moment';
 import 'moment/locale/vi';
+import { FirebaseService } from "../providers/firebase.service";
 
 moment.locale('vi');
 
@@ -52,6 +53,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         private route: ActivatedRoute,
         private router: Router,
         private noty: NotificationsService,
+        private firebaseService: FirebaseService
     ) { }
 
     public ngOnInit() {
@@ -59,8 +61,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
         //this.db.list('/chats/').remove();
         this._subscription['router'] = this.route.params.subscribe((params) => {
             this.yourId = params['uid'];
+            this.firebaseService.ignoreMsgNotify[this.yourId] = true;
             this.loadPartner();
-        })
+        });
     }
 
     ngAfterViewInit(): void {
@@ -100,7 +103,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
         this._subscription['loadchat'] = this.db.list(`/chats/${this.chatId}/messages/`).subscribe((chats) => {
             this.chats = chats.map( c => { 
-                c.created = moment( new Date( c.created ) ).fromNow();
+                if(typeof c.created == 'number'){
+                    c.created = moment( new Date( c.created ) ).fromNow();
+                }
+    
+                console.log(c.created);
                 if( !c.author ){
                     c.author = "Minh";
                 } 
@@ -183,6 +190,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
              uid: this.me.uid,
              created: firebase.database.ServerValue.TIMESTAMP })
             .then(res => {
+                if(this.you && this.you.msg && this.you.msg.web){
+                    this.firebaseService.pushNotify(this.afAuth.auth.currentUser.displayName, this.chatInput, {
+                        to: this.you.msg.web
+                    });
+                }
                 this.chatInput = '';
                 this.sending = false;
             })
@@ -190,6 +202,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnDestroy(){
+        this.firebaseService.ignoreMsgNotify[this.yourId] = false;
         var keys = Object.keys(this._subscription);
         keys.forEach((key) => {
             this._subscription[key].unsubscribe();

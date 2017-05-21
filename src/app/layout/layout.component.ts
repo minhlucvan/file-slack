@@ -10,6 +10,7 @@ import { AngularFireDatabase } from "angularfire2/database";
 
 import { FirebaseService } from '../providers/firebase.service';
 import { Router } from "@angular/router";
+import { NotificationsService } from "angular2-notifications";
 
 @Component({
     selector: 'layout',
@@ -35,6 +36,7 @@ export class LayoutComponent implements OnInit {
 
     public me;
     public chanels = [];
+    public generalChanels = [];
     public onlineList = [];
 
     public currentChanelId = '';
@@ -44,12 +46,15 @@ export class LayoutComponent implements OnInit {
         private afAuth: AngularFireAuth,
         private db: AngularFireDatabase,
         private firebaseService: FirebaseService,
-        private router: Router
+        private router: Router,
+        private noty: NotificationsService,
     ) { }
 
     public ngOnInit() {
         this.firebaseService.chanels.subscribe( chanels => {
-            this.chanels = chanels;
+            if(!chanels) { return; }
+            this.chanels = chanels.filter(c => !c.general);
+            this.generalChanels = chanels.filter(c => c.general);
         });
 
         this.db.list("/presence/").subscribe((users) => {
@@ -71,6 +76,15 @@ export class LayoutComponent implements OnInit {
         console.log('set chanel', id);
         this.firebaseService.currentChanelId.next(id);
         this.router.navigate(['/']);
+    }
+
+    public newPost(){
+        const chanel = this.firebaseService.chanels.value.find(c => c.id == this.currentChanelId);
+        if(!this.firebaseService.canPostTo(this.currentChanelId)){
+            this.noty.warn("xin loi!", 'ban khong co quen dnag bai len kenh nay');
+            return;
+        }
+        this.router.navigate(['/post']);
     }
 
     public logout(){

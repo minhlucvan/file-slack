@@ -20,12 +20,15 @@ const SERVER = {
 
 @Injectable()
 export class FirebaseService {
-    permissionGranted: boolean;
-    msgToken;
     static API_CONFIG = FIREBASE_CONFIG;
 
-    public currentChanelId: BehaviorSubject<string> =  new BehaviorSubject('1');
-    public chanels: BehaviorSubject<any> =  new BehaviorSubject(null)
+
+    public permissionGranted: boolean;
+    public msgToken;
+    public currentChanelId: BehaviorSubject<string> =  new BehaviorSubject('thongbao');
+    public chanels: BehaviorSubject<any> =  new BehaviorSubject(null);
+    public user:  BehaviorSubject<any> =  new BehaviorSubject(null);
+    public ignoreMsgNotify = {};
 
     constructor(
         private afAuth: AngularFireAuth,
@@ -60,6 +63,10 @@ export class FirebaseService {
             this.chanels.next(res);
         });
 
+        this.db.object(`/users/${this.afAuth.auth.currentUser.uid}`).subscribe(user => {
+            this.user.next(user);
+        })
+
         this.initMessaging();
     }
 
@@ -76,8 +83,25 @@ export class FirebaseService {
         });
 
         this.db.app.messaging().onMessage(( payload ) => {
-            console.log(payload);
+            console.log('receive message: ', payload);
+            let data = payload.notification;
+            if(payload.data.by == this.afAuth.auth.currentUser.uid || Object.keys(this.ignoreMsgNotify).indexOf(data.from) > -1){
+                return;   
+            }
+            this.noty.info(data.title, data.body);
         });
+    }
+
+    public subscribeMsgTopic( topic: string){
+        let headers: Headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': 'key=' + SERVER.apiKey
+            });
+        let options = new RequestOptions({ headers: headers });
+
+        this.http.post(`https://iid.googleapis.com/iid/v1/${this.msgToken}/rel/topics/${topic}`, '', options).subscribe((res) => {
+            console.log('subscribed msg topic: ', topic);
+        })
     }
 
     public registerSw(){
@@ -106,34 +130,52 @@ export class FirebaseService {
     public getMsgToken(){
         console.log('get msg token');
         this.db.app.messaging().getToken().then(( token ) => {
-            console.log('msg token',token);
+            this.msgToken = token;
+            console.log('msg token: ', token);
+            this.storeMsgToken();
+            this.subscribeMsgTopic('all');
         })
         .catch(( err ) => {
                 console.log( 'msg token err',err );
         });
     }
-    public pushNotify( payload ){
+    public canPostTo( chanelId ){
+        const chanel = this.chanels.value.find(c => c.$key == chanelId);
+        return !(!this.user.value.isAdmin && chanel.general);
+    }
+    storeMsgToken(){
+        this.db.object(`/users/${this.afAuth.auth.currentUser.uid}/msg/web/`).set(this.msgToken);
+    }
+    public pushNotify( title, body, opt ){
         if( !this.permissionGranted ){
             this.noty.warn('push notification is disabled', 'please turn it on to do this.');
             this.initMessaging();
         }
+
+        let option = Object.assign({}, {
+            to: '/topics/all'
+        }, opt)
 
         let headers: Headers = new Headers({
             'Content-Type': 'application/json',
             'Authorization': 'key=' + SERVER.apiKey
             });
         let options = new RequestOptions({ headers: headers });
-        var body = {
-            data: {
-                title: 'afaf',
-                content: 'dbskadbkas'
+        var reqBody = {
+            notification: {
+                by: this.afAuth.auth.currentUser.uid,
+                title: title,
+                body: body
             },
-            to: '/'
+            data: {
+                by: this.afAuth.auth.currentUser.uid
+            },
+            to: option.to
         };
-
-        this.http.post('https://fcm.googleapis.com/fcm/send', JSON.stringify(body), options).subscribe((res) => {
-
-        })
+        
+        this.http.post('https://fcm.googleapis.com/fcm/send', JSON.stringify(reqBody), options).subscribe((res) => {
+            console.log('sent notify ', reqBody);
+        });
 
     }
 };
